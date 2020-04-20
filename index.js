@@ -1,6 +1,22 @@
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
+
+class ElementHandler {
+  text(text){
+      if (text.text.trim() === "Variant 1"){
+          text.replace("V1 | CloudFlare Fullstack | Dominick Hing");
+      } else if (text.text.trim() === "Variant 2") {
+          text.replace("V2 | CloudFlare Fullstack | Dominick Hing");
+      }
+  }
+
+}
+
+const rewriter = new HTMLRewriter()
+    .on('title', new ElementHandler())
+    .on('h1#title', new ElementHandler())
+
 /**
  * Respond with hello worker text
  * @param {Request} request
@@ -12,7 +28,7 @@ async function handleRequest(request) {
     rand = Math.random();
     if (rand > 0.5){select = variants[0] } else { select = variants[1] }
     response = await getHTTP(select).then((data) => {return data;});
-    return response;
+    return rewriter.transform(response);
 }
 
 /**
