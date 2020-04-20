@@ -11,17 +11,18 @@ async function handleRequest(request) {
 
     rand = Math.random();
     if (rand > 0.5){select = variants[0] } else { select = variants[1] }
-
-    return new Response('Hello worker!', {
-        headers: { 'content-type': 'text/plain' },
-    })
+    response = await getHTTP(select).then((data) => {return data;});
+    return response;
 }
 
 /**
- * Send request
+ * @param {String} url
+ * Send request for variant
  */
-async function sendHTTP(){
-    return;
+async function getHTTP(url){
+    return await fetch(url).then((response) => {
+        return response;
+    })
 }
 
 /**
@@ -31,10 +32,10 @@ async function getVariants(){
     const url = "https://cfw-takehome.developers.workers.dev/api/variants"
     response = await fetch(url, {
         method: "GET"
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            return data;
-        })
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        return data;
+    })
     return response['variants'];
 }
