@@ -7,18 +7,34 @@ addEventListener('fetch', event => {
  */
 async function handleRequest(request) {
 
-    const url = "https://cfw-takehome.developers.workers.dev/api/variants"
-    response = await fetch(url, {
-        method: "GET"
-        }).then((response) => {
-            return response.json()
-        }).then((data) => {
-            return data
-        })
+    variants = await getVariants().then((data) => {return data;});
 
-    variants = response['variants']
+    rand = Math.random();
+    if (rand > 0.5){select = variants[0] } else { select = variants[1] }
 
     return new Response('Hello worker!', {
         headers: { 'content-type': 'text/plain' },
     })
+}
+
+/**
+ * Send request
+ */
+async function sendHTTP(){
+    return;
+}
+
+/**
+ * Define function for getting URL variants
+ */
+async function getVariants(){
+    const url = "https://cfw-takehome.developers.workers.dev/api/variants"
+    response = await fetch(url, {
+        method: "GET"
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            return data;
+        })
+    return response['variants'];
 }
