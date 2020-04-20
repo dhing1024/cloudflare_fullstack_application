@@ -7,7 +7,18 @@ addEventListener('fetch', event => {
  */
 async function handleRequest(request) {
 
-  return new Response('Hello worker!', {
-    headers: { 'content-type': 'text/plain' },
-  })
+    const url = "https://cfw-takehome.developers.workers.dev/api/variants"
+    response = await fetch(url, {
+        method: "GET"
+        }).then((response) => {
+            return response.json()
+        }).then((data) => {
+            return data
+        })
+
+    variants = response['variants']
+
+    return new Response('Hello worker!', {
+        headers: { 'content-type': 'text/plain' },
+    })
 }
