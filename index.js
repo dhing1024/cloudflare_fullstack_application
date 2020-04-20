@@ -3,12 +3,26 @@ addEventListener('fetch', event => {
 })
 
 class ElementHandler {
+
+  element(element){
+      if (element.tagName === "a"){
+          element.setAttribute("href", "https://www.linkedin.com/in/dominickhing/")
+          element.setAttribute("target", "_blank")
+          element.setInnerContent("linkedin.com/in/dominickhing/")
+      }
+
+      if (element.tagName === "p"){
+          element.append("Contact me at dhing@stanford.edu. Find me on LinkedIn!")
+      }
+  }
+
   text(text){
       if (text.text.trim() === "Variant 1"){
           text.replace("V1 | CloudFlare Fullstack | Dominick Hing");
       } else if (text.text.trim() === "Variant 2") {
           text.replace("V2 | CloudFlare Fullstack | Dominick Hing");
       }
+
   }
 
 }
@@ -16,6 +30,8 @@ class ElementHandler {
 const rewriter = new HTMLRewriter()
     .on('title', new ElementHandler())
     .on('h1#title', new ElementHandler())
+    .on('p#description', new ElementHandler())
+    .on('a#url', new ElementHandler())
 
 /**
  * Respond with hello worker text
