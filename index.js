@@ -47,7 +47,7 @@ async function handleRequest(request) {
     variants = await getVariants().then((data) => {return data;});
     if (Math.random() > 0.5){select = variants[0]} else {select = variants[1]}
     response = await getHTTP(select).then((data) => {return data;});
-    if (!response.ok){
+    if (response.ok){
         return rewriter.transform(response);
     } else {
         return new Response("The resource could not be obtained. Please try again.");
